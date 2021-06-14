@@ -1,28 +1,68 @@
-<template>
+<template id="nav">
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="header">
+      <MainHeader />
+      <NavHeader />
+      <TailWindTest />
+      <MobileBar v-if="isMobileFlag === true" />
+    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MainHeader from "./components/MainHeader";
+import NavHeader from "./components/NavHeader";
+
+import TailWindTest from "./pages/TailWindTest.vue";
+
+import MobileBar from "./pages/Mobile.vue";
 
 export default {
-  name: 'App',
+  name: "App",
+  data: () => {
+    return {
+      isMobileFlag: false,
+    };
+  },
   components: {
-    HelloWorld
-  }
-}
+    MainHeader,
+    NavHeader,
+    TailWindTest,
+    MobileBar,
+  },
+  methods: {
+    // 添加判断方法
+    isMobile() {
+      let flag = navigator.userAgent.match(
+        /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+      );
+      return flag;
+    },
+  },
+  // computed: ()=>{
+  //   console.log('object')
+  // },
+  mounted() {
+    if (this.isMobile()) {
+      console.log("这是移动端哦");
+      this.isMobileFlag = true;
+    } else {
+      console.log("这是PC端");
+      this.isMobileFlag = false;
+    }
+  },
+};
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  width: 100vw;
+  height: fit-content;
+  position: absolute;
+  left: 2.5vw;
+}
+.header {
+  width: 100%;
 }
 </style>
